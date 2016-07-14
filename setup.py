@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import ipfsApi
 import os, sys
 from pprint import pprint
-from requests.exceptions import ConnectionError
 from setuptools import setup, find_packages, Command
 from setuptools.command.build_py import build_py as _build_py
 
@@ -31,6 +29,9 @@ class PublishTranslators(Command):
         """N/A"""
 
     def run(self):
+        import ipfsApi
+        from requests.exceptions import ConnectionError
+
         print("Publishing to IPFS!")
         host = "localhost"
         port = 5001
