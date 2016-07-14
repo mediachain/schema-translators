@@ -7,7 +7,7 @@ class GettyTranslator(Translator):
 
     @staticmethod
     def translator_id():
-        return 'GettyTranslator/0.1'
+        return 'getty'
 
     @staticmethod
     def _translate(parsed_metadata):

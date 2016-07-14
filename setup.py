@@ -7,13 +7,6 @@ from setuptools import setup, find_packages, Command
 from setuptools.command.build_py import build_py as _build_py
 
 
-reqs_file = os.path.join(os.path.dirname(os.path.realpath(__file__))
-                   , "requirements.txt")
-
-reqs = None
-with open(reqs_file) as f:
-    reqs = f.readlines()
-
 class ChDir(object):
     """
     Step into a directory temporarily
@@ -38,7 +31,7 @@ class PublishTranslators(Command):
         """N/A"""
 
     def run(self):
-        print(" => IPFS READY!")
+        print("Publishing to IPFS!")
         host = "localhost"
         port = 5001
         self.client = ipfsApi.Client(host, port)
@@ -65,8 +58,8 @@ setup(
     packages=find_packages('.'),
     author_email = 'hello@mediachainlabs.com',
     url='http://mediachain.io',
-    install_requires=reqs,
+    install_requires=None,
     cmdclass={'publish_translators': PublishTranslators},
     setup_requires=['pytest-runner>=2.8', 'ipfs-api==0.2.3' ],
-    tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.3'],
+    tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.4'],
 )

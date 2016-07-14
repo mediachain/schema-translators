@@ -6,7 +6,7 @@ class SimpleTranslator(Translator):
 
     @staticmethod
     def translator_id():
-        return 'SimpleTranslator/0.1'
+        return 'simple'
 
     @staticmethod
     def translate(parsed_metadata):

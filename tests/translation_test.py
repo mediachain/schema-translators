@@ -1,29 +1,21 @@
+import importlib
 import pytest
 import os
-from mediachain.translation.lookup import get_translator, _TRANSLATORS
 from mediachain.translation.utils import is_mediachain_object, is_canonical, \
     MEDIACHAIN_OBJECT_TAG
 
-from mediachain.ingestion.dataset_iterator import LocalFileIterator
+from mediachain.ingestion.directory_iterator import LocalFileIterator
 
 from jsonschema import ValidationError
 
-_TRANSLATOR_IDS = _TRANSLATORS.keys()
+_TRANSLATORS_DIR = 'mediachain/translation/'
+_TRANSLATORS = os.listdir(_TRANSLATORS_DIR)
 
-
-def test_translator_lookup():
-    for translator_id in _TRANSLATOR_IDS:
-        assert get_translator(translator_id) is not None
-    with pytest.raises(LookupError):
-        get_translator('NonExistentTranslator')
-
-
-def get_iterator(data_dir, translator):
-    translator_id = translator.translator_id()
-    dir_path = os.path.join(data_dir, translator_id)
-    if translator_id.startswith('Getty'):
-        return GettyDumpIterator(translator, dir_path)
-    return DirectoryIterator(translator, dir_path)
+#def test_translator_lookup():
+#    for translator_id in _TRANSLATOR_IDS:
+#        assert get_translator(translator_id) is not None
+#    with pytest.raises(LookupError):
+#        get_translator('NonExistentTranslator')
 
 
 # def test_raises_on_nonsense():
@@ -35,16 +27,18 @@ def get_iterator(data_dir, translator):
 #                 })
 
 
-@pytest.fixture(params=_TRANSLATOR_IDS)
+@pytest.fixture(params=_TRANSLATORS)
 def iterator(request):
     translator_id = request.param
-    test_dir = os.path.dirname(request.module.__file__)
-    data_dir = os.path.join(test_dir, 'data')
-    translator = get_translator(translator_id)
-    return get_iterator(data_dir, translator)
+    translator_dir = os.path.join(_TRANSLATORS_DIR, translator_id)
+    data_dir = os.path.join(translator_dir, 'sample')
+    translator_module = os.path.join(translator_dir, 'translator')
+    translator = importlib.import_module('mediachain.translation.' + translator_id)
+    return DirectoryIterator(translator, data_dir)
 
 
 def test_parses_input(iterator):
+    assert False
     for item in iterator:
         assert_valid_iterator_output(item)
         assert_valid_translation_output(item['translated'])
