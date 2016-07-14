@@ -4,8 +4,7 @@ from mediachain.translation.lookup import get_translator, _TRANSLATORS
 from mediachain.translation.utils import is_mediachain_object, is_canonical, \
     MEDIACHAIN_OBJECT_TAG
 
-from mediachain.ingestion.directory_iterator import DirectoryIterator
-from mediachain.ingestion.getty_dump_iterator import GettyDumpIterator
+from mediachain.ingestion.dataset_iterator import LocalFileIterator
 
 from jsonschema import ValidationError
 

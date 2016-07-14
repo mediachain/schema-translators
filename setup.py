@@ -51,9 +51,8 @@ class PublishTranslators(Command):
                 'https://ipfs.io/docs/install'.format(host, port)
             )
         res = {}
-        with ChDir('translators'):
+        with ChDir('mediachain/translation'):
             for translator in os.listdir('.'):
-                print "adding " + translator
                 res[translator] = self.client.add(translator)['Hash']
         pprint(res)
 
@@ -69,5 +68,5 @@ setup(
     install_requires=reqs,
     cmdclass={'publish_translators': PublishTranslators},
     setup_requires=['pytest-runner>=2.8', 'ipfs-api==0.2.3' ],
-    tests_require=['pytest>=2.9.2'],
+    tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.3'],
 )
