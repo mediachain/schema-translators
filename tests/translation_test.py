@@ -1,7 +1,13 @@
+"""
+HACK BELOW: remove cwd from PYTHONPATH, so we use site_python's mediachain.utils correctly
+"""
+import sys
+sys.path.pop(1)
+
 import importlib
 import pytest
 import os
-from mediachain.translation.utils import is_mediachain_object, is_canonical, \
+from mediachain.utils import is_mediachain_object, is_canonical, \
     MEDIACHAIN_OBJECT_TAG
 
 from mediachain.ingestion.directory_iterator import LocalFileIterator
@@ -34,7 +40,7 @@ def iterator(request):
     data_dir = os.path.join(translator_dir, 'sample')
     translator_module = os.path.join(translator_dir, 'translator')
     translator = importlib.import_module('mediachain.translation.' + translator_id)
-    return DirectoryIterator(translator, data_dir)
+    return LocalFileIterator(translator, data_dir)
 
 
 def test_parses_input(iterator):

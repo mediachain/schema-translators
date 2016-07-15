@@ -64,3 +64,4 @@ setup(
     setup_requires=['pytest-runner>=2.8', 'ipfs-api==0.2.3' ],
     tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.4'],
 )
+
