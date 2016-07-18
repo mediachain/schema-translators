@@ -4,10 +4,9 @@ HACK BELOW: remove cwd from PYTHONPATH, so we use site_python's mediachain.utils
 import sys
 sys.path.pop(1)
 
-import importlib
 import pytest
 import os
-from mediachain.utils import is_mediachain_object, is_canonical, \
+from mediachain.translation.utils import is_mediachain_object, is_canonical, \
     MEDIACHAIN_OBJECT_TAG
 
 from mediachain.ingestion.directory_iterator import LocalFileIterator
@@ -15,7 +14,8 @@ from mediachain.ingestion.directory_iterator import LocalFileIterator
 from jsonschema import ValidationError
 
 _TRANSLATORS_DIR = 'mediachain/translation/'
-_TRANSLATORS = os.listdir(_TRANSLATORS_DIR)
+_TRANSLATORS = [t for t in os.listdir(_TRANSLATORS_DIR)
+        if not t.startswith('_')]
 
 #def test_translator_lookup():
 #    for translator_id in _TRANSLATOR_IDS:
@@ -38,13 +38,15 @@ def iterator(request):
     translator_id = request.param
     translator_dir = os.path.join(_TRANSLATORS_DIR, translator_id)
     data_dir = os.path.join(translator_dir, 'sample')
-    translator_module = os.path.join(translator_dir, 'translator')
-    translator = importlib.import_module('mediachain.translation.' + translator_id)
+
+    full_path = 'mediachain.translation.' + translator_id + '.translator'
+    #import pdb; pdb.set_trace()
+    translator_module = __import__(full_path, globals(), locals(), [translator_id])
+    translator = getattr(translator_module, translator_id.capitalize())
     return LocalFileIterator(translator, data_dir)
 
 
 def test_parses_input(iterator):
-    assert False
     for item in iterator:
         assert_valid_iterator_output(item)
         assert_valid_translation_output(item['translated'])

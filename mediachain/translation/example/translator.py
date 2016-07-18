@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from mediachain.translation.translator import Translator
 
 
-class ExampleTranslator(Translator):
+class Example(Translator):
 
     @staticmethod
     def translator_id():

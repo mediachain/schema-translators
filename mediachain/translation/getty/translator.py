@@ -3,7 +3,7 @@ import os
 from mediachain.translation.translator import Translator
 
 
-class GettyTranslator(Translator):
+class Getty(Translator):
 
     @staticmethod
     def translator_id():
