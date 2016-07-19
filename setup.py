@@ -3,6 +3,7 @@ import os, sys
 from pprint import pprint
 from setuptools import setup, find_packages, Command
 from setuptools.command.build_py import build_py as _build_py
+import subprocess
 
 
 class ChDir(object):
@@ -28,25 +29,21 @@ class PublishTranslators(Command):
     def finalize_options(self):
         """N/A"""
 
-    def run(self):
-        import ipfsApi
-        from requests.exceptions import ConnectionError
 
+    def add(self, path):
+        """
+        we'd prefer to use ipfsApi like this:
+        return self.client.add(t, True)['Hash']
+        but see https://github.com/ipfs/py-ipfs-api/issues/45
+        """
+        out = subprocess.check_output(["ipfs", "add", "-r", path])
+        return out.strip().split('\n')[-1].split(' ')[1]
+
+
+    def run(self):
         print("Publishing to IPFS!")
-        host = "localhost"
-        port = 5001
-        self.client = ipfsApi.Client(host, port)
-        try:
-            self.client.id()
-        except ConnectionError:
-            raise Exception(
-                'Unable to connect to ipfs API at {}:{} \n'
-                'For ipfs installation instructions see '
-                'https://ipfs.io/docs/install'.format(host, port)
-            )
-        res = {}
         with ChDir('mediachain/translation'):
-            res = {t: self.client.add(t)['Hash'] for t in os.listdir('.') if not t.startswith('_')}
+            res = {t: self.add(t) for t in os.listdir('.') if not t.startswith('_')}
         pprint(res)
 
 
@@ -60,7 +57,7 @@ setup(
     url='http://mediachain.io',
     install_requires=None,
     cmdclass={'publish_translators': PublishTranslators},
-    setup_requires=['pytest-runner>=2.8', 'ipfs-api==0.2.3' ],
+    setup_requires=['pytest-runner>=2.8'],
     tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.4'],
 )
 
