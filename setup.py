@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import distutils.spawn
 import os, sys
 from pprint import pprint
 from setuptools import setup, find_packages, Command
@@ -36,8 +37,15 @@ class PublishTranslators(Command):
         return self.client.add(t, True)['Hash']
         but see https://github.com/ipfs/py-ipfs-api/issues/45
         """
+        if not distutils.spawn.find_executable('ipfs'):
+            raise Exception(
+                'Unable to find ipfs executable'
+                'For ipfs installation instructions see '
+                'https://ipfs.io/docs/install'.format(host, port)
+            )
         out = subprocess.check_output(["ipfs", "add", "-r", path])
         return out.strip().split('\n')[-1].split(' ')[1]
+
 
 
     def run(self):
