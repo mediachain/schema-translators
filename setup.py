@@ -46,8 +46,7 @@ class PublishTranslators(Command):
             )
         res = {}
         with ChDir('mediachain/translation'):
-            for translator in os.listdir('.'):
-                res[translator] = self.client.add(translator)['Hash']
+            res = {t: self.client.add(t)['Hash'] for t in os.listdir('.') if not t.startswith('_')}
         pprint(res)
 
 
