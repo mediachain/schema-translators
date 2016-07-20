@@ -9,8 +9,7 @@ class Example(Translator):
         return 'example'
 
     @staticmethod
-    def translate(parsed_metadata):
-        example_json = parsed_metadata
+    def translate(example_json):
 
         data = {
             '_id': example_json['id']
