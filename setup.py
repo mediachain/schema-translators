@@ -63,9 +63,9 @@ setup(
     packages=find_packages('.'),
     author_email = 'hello@mediachainlabs.com',
     url='http://mediachain.io',
-    install_requires=None,
+    install_requires=['mediachain-client>=0.1.4'],
     cmdclass={'publish_translators': PublishTranslators},
     setup_requires=['pytest-runner>=2.8'],
-    tests_require=['pytest>=2.9.2', 'mediachain-client>=0.1.4'],
+    tests_require=['pytest>=2.9.2'],
 )
 
