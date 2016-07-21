@@ -18,22 +18,6 @@ _TRANSLATORS_DIR = 'mediachain/translation/'
 _TRANSLATORS = [t for t in os.listdir(_TRANSLATORS_DIR)
         if not t.startswith('_')]
 
-#def test_translator_lookup():
-#    for translator_id in _TRANSLATOR_IDS:
-#        assert get_translator(translator_id) is not None
-#    with pytest.raises(LookupError):
-#        get_translator('NonExistentTranslator')
-
-
-# def test_raises_on_nonsense():
-#     for translator_id in _TRANSLATOR_IDS:
-#         translator = get_translator(translator_id)
-#         with pytest.raises(ValidationError):
-#             translator.validate({
-#                 'some' : 'nonsense'
-#                 })
-
-
 @pytest.fixture(params=_TRANSLATORS)
 def iterator(request):
     translator_id = request.param
