@@ -20,7 +20,7 @@ class Artsy(Translator):
                 'image_url': json['image_url']
                 }
 
-        if 'artist' in json:
+        if 'artist' in json and isinstance(json['artist'], dict):
             artist_name = json['artist']['name']
             data['artist'] = artist_name
 
@@ -52,13 +52,15 @@ class Artsy(Translator):
             ]
         }
 
-        if artist_entity:
+        try:
             chain_entry = {'__mediachain_object__': True,
                 'type': 'artefactCreatedBy',
                 'meta': {},
                 'entity': artist_entity
             }
             translated['chain'].append(chain_entry)
+        except NameError:
+            pass
 
         return translated
 
