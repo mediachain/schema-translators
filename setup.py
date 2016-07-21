@@ -56,14 +56,14 @@ class PublishTranslators(Command):
 
 
 setup(
-    version='0.1.2',
+    version='0.1.6',
     name='mediachain-schema-translators',
     description='collection of mediachain schema translator modules',
     author='Mediachain Labs',
     packages=find_packages('.'),
     author_email = 'hello@mediachainlabs.com',
     url='http://mediachain.io',
-    install_requires=['mediachain-client>=0.1.4'],
+    install_requires=['mediachain-client>=0.1.6'],
     cmdclass={'publish_translators': PublishTranslators},
     setup_requires=['pytest-runner>=2.8'],
     tests_require=['pytest>=2.9.2'],
