@@ -2,10 +2,11 @@
 HACK BELOW: remove cwd from PYTHONPATH, so we use site_python's mediachain.utils correctly
 """
 import sys
-sys.path.pop(1)
+import os
+cwd_index = sys.path.index(os.getcwd())
+sys.path.pop(cwd_index)
 
 import pytest
-import os
 from mediachain.translation.utils import is_mediachain_object, is_canonical, \
     MEDIACHAIN_OBJECT_TAG
 
