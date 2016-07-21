@@ -14,7 +14,7 @@ class Example(Translator):
         artwork_artefact = {
             u'__mediachain_object__': True,
             u'type': u'artefact',
-            u'meta': {'data': process_data(example_json)}
+            u'meta': {'data': Example.process_data(example_json)}
         }
 
         return {
