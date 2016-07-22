@@ -40,7 +40,7 @@ class Getty(Translator):
 
         try:
             thumb_uri = [i['uri'] for i in parsed_metadata['display_sizes']
-                         if i['name'] == 'thumb'].pop()
+                         if i['name'] == 'comp'].pop()
             data['thumbnail'] = {
                 '__mediachain_asset__': True,
                 'uri': thumb_uri
@@ -69,4 +69,3 @@ class Getty(Translator):
     def can_translate_file(file_path):
         ext = os.path.splitext(file_path)[-1]
         return ext.lower() == '.json'
-
