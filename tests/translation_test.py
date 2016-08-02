@@ -3,8 +3,15 @@ HACK BELOW: remove cwd from PYTHONPATH, so we use site_python's mediachain.utils
 """
 import sys
 import os
-cwd_index = sys.path.index(os.getcwd())
-sys.path.pop(cwd_index)
+base_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+while True:
+    try: 
+        base_path_index = sys.path.index(base_path)
+        sys.path.pop(base_path_index)
+    except ValueError:
+        break
+
 
 import pytest
 from mediachain.translation.utils import is_mediachain_object, is_canonical, \
