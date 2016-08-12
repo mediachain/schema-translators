@@ -9,6 +9,18 @@ class Artsy(Translator):
         return 'artsy'
 
     @staticmethod
+    def get_image(json):
+        try:
+            return json['image_url']
+        except KeyError:
+            pass
+        try:
+            return json['_links']['image']['href']
+        except KeyError:
+            return "NO_IMAGE"
+
+
+    @staticmethod
     def translate(json):
         # extract artwork Artefact
         data = {'_id': u'artsy_' + json['id'],
@@ -37,7 +49,7 @@ class Artsy(Translator):
 
         data['thumbnail'] = {
             '__mediachain_asset__': True,
-            'uri': json['image_url']
+            'uri': Artsy.get_image(json)
         }
 
         artwork_artefact = {
