@@ -22,6 +22,8 @@ class Artsy(Translator):
 
     @staticmethod
     def translate(json):
+        image = Artsy.get_image(json)
+
         # extract artwork Artefact
         data = {'_id': u'artsy_' + json['id'],
                 'title': json['title'],
@@ -29,7 +31,7 @@ class Artsy(Translator):
                 'medium': json['medium'],
                 'collecting_institution': json['collecting_institution'],
                 'created_at': json['created_at'],
-                'image_url': json['image_url']
+                'image_url': image
                 }
 
         if 'artist' in json and isinstance(json['artist'], dict):
@@ -49,7 +51,7 @@ class Artsy(Translator):
 
         data['thumbnail'] = {
             '__mediachain_asset__': True,
-            'uri': Artsy.get_image(json)
+            'uri': image
         }
 
         artwork_artefact = {
