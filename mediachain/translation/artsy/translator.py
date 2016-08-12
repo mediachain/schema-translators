@@ -15,7 +15,7 @@ class Artsy(Translator):
         except KeyError:
             pass
         try:
-            return json['_links']['image']['href']
+            return json['_links']['thumbnail']['href']
         except KeyError:
             return "NO_IMAGE"
 
